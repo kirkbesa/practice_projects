@@ -1,0 +1,51 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+.parent-container {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.textarea-container {
+    margin: auto;
+    display: flex;
+    width: 400px;
+    flex-direction: column;
+    gap: 1em;
+    border: 1px solid black;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+.textarea-container textarea {
+    width: 100%;
+    min-height: 4em;
+    field-sizing: content;
+    resize: none;
+    border: none;
+    outline: none;
+}
+
+.character-count {
+    align-self: end;
+}
+
+@media (max-width: 400px) {
+    .parent-container, .textarea-container {
+        width: 100%;
+    }
+}
+
+
