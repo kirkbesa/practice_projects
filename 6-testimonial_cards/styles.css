@@ -1,0 +1,269 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+.parent-container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    gap: 2em;
+    width: 700px;
+}
+
+.row-1 {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+
+.triangle-down {
+    width: 0px;
+    height: 0px;
+    border-top: 15px solid black;
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+}
+
+.testimonial-1, .testimonial-2 {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.t-1-textbox {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.t-1-textbox .t-1-text {
+    background-color: black;
+    color: white;
+    padding: 1em;
+    border-radius: 1em;
+}
+
+.testimonial-user {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+}
+
+.testimonial-user .triangle-and-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.testimonial-user .testimonial-user-image {
+    width: 100px;
+    height: auto;
+    overflow: hidden;
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+}
+
+.testimonial-user img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+}
+
+.testimonial-user .testimonial-user-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonial-user .testimonial-user-text p {
+    font-size: 0.8em;
+}
+
+.testimonial-2 {
+    padding: 1em;
+    justify-content: space-between;
+    border: 1px solid black;
+    border-radius: 1em;
+}
+
+.testimonial-3 {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    width: 100%;
+    height: auto;
+}
+
+.testimonial-3 .t3-image {
+    width: 33%;
+    aspect-ratio: 1 / 1;
+    border-radius: 1em;
+    overflow: hidden;
+}
+
+.testimonial-3 .t3-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+}
+
+.testimonial-3 .t3-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background-color: black;
+    color: white;
+    padding: 2em;
+    border-radius: 1em;
+    gap: 1em;
+}
+
+.checked {
+    color: orange;
+}
+
+.testimonial-3 .t3-content .text {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.testimonial-3 .user-job {
+    color: #ccc;
+}
+
+.testimonial-4 {
+    border-radius: 1em;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    padding: 2.5em;
+    width: 100%;
+    height: auto;
+}
+
+.testimonial-4 .text {
+    text-align: center;
+}
+
+.testimonial-4 .users {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2em;
+}
+
+.arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+  }
+  
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.images {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+}
+
+.image-wrapper {
+    width: auto;
+    height: auto;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+}
+
+.img-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+}
+
+.inactive {
+    width: 50px;
+    height: auto;
+    opacity: 0.5;
+    aspect-ratio: 1 / 1;
+}
+.active {
+    width: 70px;
+    aspect-ratio: 1 / 1;
+}
+
+@media (max-width: 1024px) {
+    .parent-container {
+        width: 800px;
+    }
+}
+
+@media (max-width: 800px) {
+    body {
+        padding: 2em;
+    }
+
+    .parent-container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 667px) {
+    .row-1 {
+        flex-direction: column;
+    }
+
+    .row-1 > * {
+        width: 100%;
+    }
+
+    .testimonial-2 {
+        gap: 1em;
+    }
+}
+
+@media (max-width: 430px) {
+    .testimonial-3 {
+        flex-direction: column;
+        align-items: center;
+    }
+    .testimonial-3 .t3-image {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 1em;
+        overflow: hidden;
+    }
+    
+    .testimonial-3 .t3-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        aspect-ratio: 1 / 1;
+    }
+}
