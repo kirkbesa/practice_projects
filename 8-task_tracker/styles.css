@@ -1,0 +1,77 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    padding: 1em;
+}
+
+.parent-container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 400px;
+    padding: 1em;
+    gap: 1em;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid black;
+    gap: 5px;
+}
+
+.input-container input {
+    border: none;
+    width: 100%;
+    padding: 1em;
+    outline: none;
+}
+
+.input-container button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 1em;
+    border-radius: 5px;
+}
+
+.tasks-container .task-list {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    gap: 1em;
+    width: 100%;
+}
+
+.tasks-container .task-list .task-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    width: 100%;
+}
+
+.task-item span {
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.task-item > p.done {
+    text-decoration: line-through !important;
+}
+
+.error, .error::placeholder {
+    border-color: red;
+    color: red;
+}
