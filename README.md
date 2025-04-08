@@ -6,3 +6,4 @@
 6. https://roadmap.sh/projects/testimonial-cards
 7. https://roadmap.sh/projects/image-grid
 8. https://roadmap.sh/projects/task-tracker-js
+9. https://roadmap.sh/projects/accordion
