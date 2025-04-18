@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Reddit Client</title>
+        <link rel="stylesheet" href="styles.css" /> 
+    </head>
+
+    <body>
+        
+        <div class="parent-container">
+            
+            <div id="addNewContainer">
+                <button id="addNewSubredditButton">+</button>
+            </div>
+        </div>
+
+        <div id="modal" class="modal-container hidden">
+            <div class="modal-content">
+                <span class="modal-close">&times;</span>
+                <h2>Enter the name of subreddit</h2>
+                <input type="text" id="subredditInput" placeholder="Enter subreddit name" />
+                <button id="addSubredditButton">Add</button>
+                <span class="error-message"></span>
+            </div>
+            <div class="modal-loading" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>Loading...</p>
+            </div>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
