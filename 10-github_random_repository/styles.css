@@ -1,0 +1,79 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    padding: 1em;
+}
+
+.parent-container {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+    width: 600px;
+}
+
+.parent-container h1 {
+    font-size: 24px;
+}
+
+#dropDown {
+    width: 100%;
+    padding: 0.5em 1em;
+    border-radius: 1em;
+    appearance: none;
+}
+
+#searchRepositoryButton {
+    width: 100%;
+    padding: 1em;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 1em;
+    cursor: pointer;
+}
+
+.states {
+    padding: 3em 1em;
+    text-align: center;
+    width: 100%;
+    border-radius: 1em;
+}
+
+.repo {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    gap: 1em;
+    border: 1px solid black;
+    border-radius: 1em;
+    width: 100%;
+}
+
+.repo #repoName {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.repo #repoDescription {
+    font-size: 16px;
+    color: #5e5e5e;
+}
+
+.repo_lower {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    color: #5e5e5e;
+    align-items: center;
+}
