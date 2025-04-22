@@ -74,6 +74,17 @@ async function addUser() {
     console.log('User added successfully!')
 }
 
+async function listUsers() {
+    if (users.length === 0) {
+        console.log('No users found.')
+    } else {
+        console.log('List of users:')
+        users.forEach(user => {
+            console.log(`Name: ${user.name}, Role: ${user.role}`)
+        })
+    }
+}
+
 async function startApp() {
     console.log('Weclome to TaskManager CLI!')
 
@@ -82,6 +93,10 @@ async function startApp() {
     while (running) {
         const input = await askQuestion('Type a command: ')
         switch (input.toLowerCase()) {
+            case 'list users':
+                console.clear()
+                await listUsers()
+                break
             case 'add user':
                 console.clear()
                 await addUser()
