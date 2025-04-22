@@ -1,0 +1,83 @@
+Core Features
+
+User Management 
+    - Create users with roles (use Enums for roles: Admin, Developer, Manager).
+    - Store users in memory (array) or JSON file.
+
+Task System
+    - Create tasks with status (Pending, In Progress, Done).
+    - Assign tasks to users.
+    - Use Interfaces, Generics for task storage.
+
+Project & Team Handling
+    - Group tasks under projects.
+    - Assign teams.
+    - Use Nested Types, Intersection Types for complex data models.
+
+CLI Interaction
+    - Use readline for user input.
+    - Commands like:
+        - add user
+        - create task
+        - list tasks
+        - update status
+        - show dashboard (role-based views!)
+
+Status & Role Dashboards
+    - Conditionally render outputs based on user role using Enums.
+
+Utility Functions
+    - Use Generics for reusable storage logic (e.g., TaskContainer<T>).
+    - Apply Partial, Omit, Exclude for flexible updates.
+
+Type Utilities
+    - Extract types from functions or constants.
+    - Use keyof, ReturnType, Awaited for handling dynamic operations (e.g., simulate async DB fetch).
+
+Concept	Application in Project
+Interfaces	        Define User, Task, Project structures
+Enums	            User roles, task statuses
+Union Types     	Handle flexible inputs (`string
+Generics	        Create reusable storage or service classes
+Partial/Required	Update tasks with flexible or strict requirements
+Omit/Exclude	    Customize views or data responses
+Intersection	    Combine User & Task for assigned tasks
+Typeof / keyof	    Work dynamically with object keys
+Async/Awaited	    Simulate async data fetching
+
+Bonus Features (For Scaling Later)
+Data Persistence: Save/load data from a JSON file.
+Authentication Simulation: Login/logout flow.
+Filters & Search: List tasks by status or assignee.
+Notifications: Console logs when deadlines are near (simulate).
+Export Reports: Generate a .txt summary of tasks/projects.
+Role-Based Restrictions: Only Admin can delete tasks.
+
+Sample User Flow:
+Welcome to TaskManager CLI!
+Type a command: 
+
+> add user
+Enter name: Kirk
+Select role: (admin/user/manager): admin
+User created!
+
+> create task
+Task title: Fix Login Bug
+Assign to user ID: 1
+Set status: pending
+Task created!
+
+> list tasks
+[1] Fix Login Bug - Assigned to: Kirk - Status: Pending
+
+> update status
+Enter Task ID: 1
+New Status: in_progress
+Task updated!
+
+> show dashboard
+[Admin Dashboard]
+- Total Users: 5
+- Tasks Pending: 3
+- Tasks In Progress: 2
