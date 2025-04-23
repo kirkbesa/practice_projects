@@ -28,60 +28,62 @@ function addUser() {
             const userId = 1;
             newUser = { id: userId, name: '', role: '' };
         }
-        let step = 'askName';
-        while (step !== 'done') {
-            switch (step) {
-                case 'askName':
-                    const nameInput = yield (0, readline_1.askQuestion)('Enter name: ');
-                    if (nameInput === 'exit') {
-                        console.log('Exiting user creation...');
-                        step = 'done';
-                        break;
-                    }
-                    else if (!nameInput) {
-                        console.log('Name cannot be empty.');
-                        continue;
-                    }
-                    else if (nameInput[0] === ' ') {
-                        console.log('Name cannot start with a space.');
-                        continue;
-                    }
-                    else if (!isNaN(Number(nameInput[0]))) {
-                        console.log('Name cannot start with a number.');
-                        continue;
-                    }
-                    else {
-                        const existingUser = users_1.users.find(user => user.name === nameInput);
-                        if (existingUser) {
-                            console.log('Name already taken, Please choose another.');
-                            continue;
-                        }
-                    }
-                    newUser.name = nameInput; // Assign Name
-                    step = 'askRole';
-                    break;
-                case 'askRole':
-                    const rolesString = Object.values(types_1.UserRole).join('/'); // Dynamically Fetch Roles from UserRole enum
-                    const roleInput = yield (0, readline_1.askQuestion)(`Enter role (${rolesString}): `);
-                    if (roleInput === 'exit') {
-                        console.log('Exiting user creation...');
-                        step = 'done';
-                        break;
-                    }
-                    else if (!roleInput) {
-                        console.log('Role cannot be empty.');
-                        continue;
-                    }
-                    else if (!Object.values(types_1.UserRole).includes(roleInput)) {
-                        console.log(`Invalid role. Choose from: ${rolesString}`);
-                        continue;
-                    }
-                    newUser.role = roleInput; // Assign Role
-                    users_1.users.push(newUser); // Add New User
-                    console.log(`User: ${newUser.name} added successfully!`);
-                    step = 'done';
-                    break;
+        // User Input Loop
+        // Ask for Name
+        while (true) {
+            const nameInput = yield (0, readline_1.askQuestion)('Enter name: ');
+            // Check for Exit
+            if (nameInput === 'exit') {
+                console.log('Exiting user creation...');
+                return;
             }
+            // Check for Empty
+            if (!nameInput) {
+                console.log('Name cannot be empty.');
+                continue;
+            }
+            // Check for Starting with Space
+            if (nameInput[0] === ' ') {
+                console.log('Name cannot start with a space.');
+                continue;
+            }
+            // Check for Starting with Number
+            if (!isNaN(Number(nameInput[0]))) {
+                console.log('Name cannot start with a number.');
+                continue;
+            }
+            // Check for Existing Name
+            const existingUser = users_1.users.find(user => user.name === nameInput);
+            if (existingUser) {
+                console.log('Name already taken, Please choose another.');
+                continue;
+            }
+            newUser.name = nameInput; // Assign Name
+            break;
+        }
+        // Ask for Role
+        const rolesString = Object.values(types_1.UserRole).join('/'); // Dynamically Fetch Roles from UserRole enum
+        while (true) {
+            const roleInput = yield (0, readline_1.askQuestion)(`Enter role (${rolesString}): `);
+            // Check for Exit
+            if (roleInput === 'exit') {
+                console.log('Exiting user creation...');
+                return;
+            }
+            // Check for Empty
+            if (!roleInput) {
+                console.log('Role cannot be empty.');
+                continue;
+            }
+            // Check for Valid Role
+            if (!Object.values(types_1.UserRole).includes(roleInput)) {
+                console.log(`Invalid role. Choose from: ${rolesString}`);
+                continue;
+            }
+            newUser.role = roleInput; // Assign Role
+            users_1.users.push(newUser); // Add New User
+            console.log(`User: ${newUser.name} added successfully!`);
+            return;
         }
     });
 }
