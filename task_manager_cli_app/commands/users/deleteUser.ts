@@ -3,6 +3,10 @@ import { users } from '../../database/users'
 import { listUsers } from './listUsers'
 
 export async function deleteUser(): Promise<void> {
+    if (users.length === 0) {
+        listUsers()
+        return
+    }
     console.log('Type "exit" at any time to cancel user deletion.')
     let userToDelete: number = -1
 
