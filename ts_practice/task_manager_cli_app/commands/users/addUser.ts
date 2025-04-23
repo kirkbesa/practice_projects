@@ -1,8 +1,9 @@
 import { askQuestion } from '../../utils/readline'
 import { users } from '../../database/users'
-import { UserRole } from '../../types'
+import { User, UserRole } from '../../types'
 
 export async function addUser(): Promise<void> {
+    console.log('Type "exit" at any time to cancel user creation.')
     let newUser: User
 
     // User ID generation logic
@@ -23,47 +24,54 @@ export async function addUser(): Promise<void> {
     while (step !== 'done') {
         switch (step) {
             case 'askName':
-                const name: string = await askQuestion('Enter name: ')
+                const nameInput: string = await askQuestion('Enter name: ')
 
-                if (!name) {
+                if (nameInput === 'exit') {
+                    console.log('Exiting user creation...')
+                    step = 'done'
+                    break
+                } else if (!nameInput) {
                     console.log('Name cannot be empty.')
                     continue
-                } else if (name[0] === ' ') {
+                } else if (nameInput[0] === ' ') {
                     console.log('Name cannot start with a space.')
                     continue
-                } else if (!isNaN(Number(name[0]))) {
+                } else if (!isNaN(Number(nameInput[0]))) {
                     console.log('Name cannot start with a number.')
                     continue
                 } else {
-                    const existingUser = users.find(user => user.name === name)
+                    const existingUser = users.find(user => user.name === nameInput)
                     if (existingUser) {
                         console.log('Name already taken, Please choose another.')
                         continue
                     }
                 }
 
-                newUser.name = name
+                newUser.name = nameInput // Assign Name
                 step = 'askRole'
                 break
 
             case 'askRole':
                 const rolesString = Object.values(UserRole).join('/') // Dynamically Fetch Roles from UserRole enum
-                const role: string = await askQuestion(`Enter role (${rolesString}): `)
+                const roleInput: string = await askQuestion(`Enter role (${rolesString}): `)
 
-                if (!role) {
+                if (roleInput === 'exit') {
+                    console.log('Exiting user creation...')
+                    step = 'done'
+                    break
+                } else if (!roleInput) {
                     console.log('Role cannot be empty.')
                     continue
-                } else if (!Object.values(UserRole).includes(role as UserRole)) {
+                } else if (!Object.values(UserRole).includes(roleInput as UserRole)) {
                     console.log(`Invalid role. Choose from: ${rolesString}`)
                     continue
                 }
 
-                newUser.role = role
+                newUser.role = roleInput // Assign Role
+                users.push(newUser) // Add New User
+                console.log(`User: ${newUser.name} added successfully!`)
                 step = 'done'
                 break
         }
     }
-
-    users.push(newUser) // Add the new user to the users array
-    console.log(`User: ${newUser.name} added successfully!`)
 }
