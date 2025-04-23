@@ -12,7 +12,6 @@ export function isValidRole(input: string): boolean {
 }
 
 import { users } from '../database/users'
-import { truncate } from 'lodash'
 export function isValidName(input: string): boolean {
     // Check for Starting with Space
     if (input[0] === ' ') {
