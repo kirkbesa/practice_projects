@@ -1,7 +1,8 @@
 import { Task, Status } from '../../types'
 
-function createTask(taskInput: Task, taskList: Task[]): void {
+function addTask(taskInput: Task, taskList: Task[]): void {
     taskList.push(taskInput)
+    console.log(`Task: ${taskInput.title} - Successfully Added!`)
 }
 
 function displayTasks<Task extends object>(tasks: Task[], key: keyof Task, value: any): Task[] {
@@ -26,3 +27,5 @@ function updateTaskStatus(task: Task, status: Status): void {
 function findTaskById(taskId: number, taskList: Task[]): Task | undefined {
     return taskList[taskList.findIndex(task => (task.taskId = taskId))]
 }
+
+export { addTask, displayTasks, deleteTask, assignTask, updateTaskStatus, findTaskById }

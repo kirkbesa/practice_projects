@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateAttribute = updateAttribute;
 exports.generateID = generateID;
 exports.isValidRole = isValidRole;
+exports.isValidStatus = isValidStatus;
 exports.isValidName = isValidName;
 exports.isValidId = isValidId;
 exports.isYesOrNo = isYesOrNo;
@@ -22,6 +23,14 @@ const types_1 = require("../types");
 function isValidRole(input) {
     if (!Object.values(types_1.UserRole).includes(input)) {
         console.log(`Invalid Role. Please choose from: ${Object.values(types_1.UserRole).join('/')}`);
+        return false;
+    }
+    return true;
+}
+const types_2 = require("../types");
+function isValidStatus(input) {
+    if (!Object.values(types_2.TaskStatus).includes(input)) {
+        console.log(`Invalid Status. Please choose from: ${Object.values(types_2.TaskStatus).join('/')}`);
         return false;
     }
     return true;

@@ -24,16 +24,10 @@ export async function addUser(): Promise<void> {
         nameInput = nameInput.trim()
 
         // Check for Exit
-        if (isExiting(nameInput)) {
-            return
-        }
-        if (isEmpty(nameInput)) {
-            continue
-        }
+        if (isExiting(nameInput)) return
+        if (isEmpty(nameInput)) continue
         // Check for Valid Name - starts with number/space, is existing
-        if (!isValidName(nameInput)) {
-            continue
-        }
+        if (!isValidName(nameInput)) continue
 
         newUser.name = nameInput // Assign Name
         break
@@ -47,17 +41,11 @@ export async function addUser(): Promise<void> {
         roleInput = cleanInput(roleInput)
 
         // Check for Exit
-        if (isExiting(roleInput)) {
-            return
-        }
+        if (isExiting(roleInput)) return
         // Check for Empty
-        if (isEmpty(roleInput)) {
-            continue
-        }
+        if (isEmpty(roleInput)) continue
         // Check for Valid Role
-        if (!isValidRole(roleInput)) {
-            continue
-        }
+        if (!isValidRole(roleInput)) continue
 
         newUser.role = roleInput // Assign Role
         users.push(newUser) // Add New User

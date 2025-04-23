@@ -17,6 +17,15 @@ export function isValidRole(input: string): boolean {
     return true
 }
 
+import { TaskStatus } from '../types'
+export function isValidStatus(input: string): boolean {
+    if (!Object.values(TaskStatus).includes(input as TaskStatus)) {
+        console.log(`Invalid Status. Please choose from: ${Object.values(TaskStatus).join('/')}`)
+        return false
+    }
+    return true
+}
+
 import { users } from '../database/users'
 export function isValidName(input: string): boolean {
     // Check for Starting with Number

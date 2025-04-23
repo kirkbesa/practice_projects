@@ -18,13 +18,21 @@ enum UserRole {
 }
 
 // Tasks
-type Status = 'unassigned' | 'assigned' | 'inProgress' | 'Done' | 'cancelled'
+type Status = 'unassigned' | 'assigned' | 'in progress' | 'done' | 'cancelled'
 
 interface Task {
     taskId: number
     title: string
-    assignedTo: number
+    assignedTo: number | undefined
     status: Status
 }
 
-export { Command, User, UserRole, Role, Task, Status }
+enum TaskStatus {
+    UNASSIGNED = 'unnassigned',
+    ASSIGNED = 'assigned',
+    INPROGRESS = 'in progress',
+    DONE = 'done',
+    CANCELLED = 'cancelled',
+}
+
+export { Command, User, UserRole, Role, Task, Status, TaskStatus }

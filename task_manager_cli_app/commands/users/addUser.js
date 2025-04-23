@@ -26,16 +26,13 @@ function addUser() {
             let nameInput = yield (0, readline_1.askQuestion)('Enter name: ');
             nameInput = nameInput.trim();
             // Check for Exit
-            if ((0, helpers_1.isExiting)(nameInput)) {
+            if ((0, helpers_1.isExiting)(nameInput))
                 return;
-            }
-            if ((0, helpers_1.isEmpty)(nameInput)) {
+            if ((0, helpers_1.isEmpty)(nameInput))
                 continue;
-            }
             // Check for Valid Name - starts with number/space, is existing
-            if (!(0, helpers_1.isValidName)(nameInput)) {
+            if (!(0, helpers_1.isValidName)(nameInput))
                 continue;
-            }
             newUser.name = nameInput; // Assign Name
             break;
         }
@@ -45,17 +42,14 @@ function addUser() {
             let roleInput = yield (0, readline_1.askQuestion)(`Enter role (${rolesString}): `);
             roleInput = (0, helpers_1.cleanInput)(roleInput);
             // Check for Exit
-            if ((0, helpers_1.isExiting)(roleInput)) {
+            if ((0, helpers_1.isExiting)(roleInput))
                 return;
-            }
             // Check for Empty
-            if ((0, helpers_1.isEmpty)(roleInput)) {
+            if ((0, helpers_1.isEmpty)(roleInput))
                 continue;
-            }
             // Check for Valid Role
-            if (!(0, helpers_1.isValidRole)(roleInput)) {
+            if (!(0, helpers_1.isValidRole)(roleInput))
                 continue;
-            }
             newUser.role = roleInput; // Assign Role
             users_1.users.push(newUser); // Add New User
             console.log(`User: ${newUser.name} added successfully!`);
