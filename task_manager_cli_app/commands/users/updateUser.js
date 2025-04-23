@@ -28,69 +28,89 @@ function updateUser() {
             (0, listUsers_1.listUsers)();
             const userIdInput = yield (0, readline_1.askQuestion)('Select User ID to update: ');
             // Check for exit
-            if (userIdInput === 'exit') {
-                console.log('Exiting user update...');
+            if ((0, helpers_1.isExiting)(userIdInput))
                 return;
-            }
-            // Check for Empty
-            if (!userIdInput) {
-                console.log('ID cannot be empty');
+            // Check if empty, if number, if existing id
+            if ((0, helpers_1.isEmpty)(userIdInput) || !(0, helpers_1.isNumber)(userIdInput) || !(0, helpers_1.isValidId)(userIdInput, users_1.users))
                 continue;
-            }
-            // Check for Number
-            const userIdInputNumber = Number(userIdInput);
-            if (isNaN(userIdInputNumber)) {
-                console.log('Invalid user ID. Please enter a number.');
-                continue;
-            }
-            // Check for Existing Valid User ID
-            userToUpdateIndex = users_1.users.findIndex(user => user.id === userIdInputNumber);
-            if (userToUpdateIndex === -1) {
-                console.log('Invalid user ID. User not found.');
-                continue;
-            }
+            userToUpdateIndex = Number(userIdInput) - 1;
+            console.log(`Updating: ${users_1.users[userToUpdateIndex].name} - ${users_1.users[userToUpdateIndex].role}`);
             break;
         }
         // Ask what to update
         while (true) {
             const userToUpdateObject = users_1.users[userToUpdateIndex];
             const updatableAttributes = Object.keys(userToUpdateObject).filter(key => key !== 'id');
-            const attributeInput = yield (0, readline_1.askQuestion)(`Select attribute to update: ${updatableAttributes.join('/')}/all `);
-            // Check for exit
-            if (attributeInput === 'exit') {
-                console.log('Exiting user update...');
+            let attributeInput = yield (0, readline_1.askQuestion)(`Select attribute to update (${updatableAttributes.join('/')}/all): `);
+            attributeInput = (0, helpers_1.cleanInput)(attributeInput);
+            // Check for Exit
+            if ((0, helpers_1.isExiting)(attributeInput))
                 return;
-            }
-            // Check for all
+            // Check for Empty
+            if ((0, helpers_1.isEmpty)(attributeInput))
+                continue;
+            // Check for All
             if (attributeInput === 'all') {
                 for (const attribute of updatableAttributes) {
                     while (true) {
                         let newInput = yield (0, readline_1.askQuestion)(`Type new value for ${attribute}: `);
+                        newInput = (0, helpers_1.cleanInput)(newInput);
+                        // Check for exit
+                        if ((0, helpers_1.isExiting)(newInput))
+                            return;
                         // Check for Empty
-                        if (!newInput) {
-                            console.log(`${attribute} cannot be empty.`);
+                        if ((0, helpers_1.isEmpty)(newInput))
                             continue;
+                        if (attribute === 'name') {
+                            if (!(0, helpers_1.isValidName)(newInput))
+                                continue;
                         }
-                        newInput = newInput.trim().toLowerCase();
                         // Check for valid role
                         if (attribute === 'role') {
-                            const rolesString = Object.values(types_1.UserRole).join('/');
-                            if (!(0, helpers_1.isValidRole)(newInput)) {
-                                console.log(`Invalid Role. Please choose from: ${rolesString}`);
+                            if (!(0, helpers_1.isValidRole)(newInput))
                                 continue;
-                            }
                         }
                         (0, helpers_1.updateAttribute)(userToUpdateObject, attribute, newInput);
                         break;
                     }
                 }
-                console.log('All attributes updated successfully.');
+                console.log(`${userToUpdateObject.name} - ${userToUpdateObject.role} updated successfully.`);
                 return;
             }
             // Check for invalid attribute
-            if (!updatableAttributes.includes(attributeInput.trim())) {
+            if (!updatableAttributes.includes(attributeInput)) {
                 console.log('Invalid attribute.');
                 continue;
+            }
+            // Check for single attribute selection
+            while (true) {
+                let question;
+                if (attributeInput === 'role') {
+                    question = `Type new value for ${attributeInput} (${Object.values(types_1.UserRole).join('/')}): `;
+                }
+                else {
+                    question = `Type new value for ${attributeInput}: `;
+                }
+                let newInput = yield (0, readline_1.askQuestion)(question);
+                newInput = (0, helpers_1.cleanInput)(newInput);
+                // Check for exit
+                if ((0, helpers_1.isExiting)(newInput))
+                    return;
+                // Check for Empty
+                if ((0, helpers_1.isEmpty)(newInput))
+                    continue;
+                if (attributeInput === 'name') {
+                    if (!(0, helpers_1.isValidName)(newInput))
+                        continue;
+                }
+                // Check for valid role
+                if (attributeInput === 'role') {
+                    if (!(0, helpers_1.isValidRole)(newInput))
+                        continue;
+                }
+                (0, helpers_1.updateAttribute)(userToUpdateObject, attributeInput, newInput);
+                console.log(`${userToUpdateObject.name} - ${userToUpdateObject.role} updated successfully.`);
+                return;
             }
         }
     });

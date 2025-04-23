@@ -1,20 +1,27 @@
 import { askQuestion } from '../../utils/readline'
 import { users } from '../../database/users'
 import { User, UserRole } from '../../types'
-import { isValidName, isValidRole, isEmpty, isExiting } from '../../utils/helpers'
+import {
+    isValidName,
+    isValidRole,
+    isEmpty,
+    isExiting,
+    cleanInput,
+    generateID,
+} from '../../utils/helpers'
 
 export async function addUser(): Promise<void> {
     console.log('Type "exit" at any time to cancel user creation.')
 
     // User ID generation logic
-    // If user list is not empty, add 1 to last id, else set to 1
-    const userId = users.length > 0 ? users[users.length - 1].id + 1 : 1
+    const userId = generateID(users)
     let newUser: User = { id: userId, name: '', role: '' }
 
     // User Input Loop
     // Ask for Name
     while (true) {
-        const nameInput: string = await askQuestion('Enter name: ')
+        let nameInput: string = await askQuestion('Enter name: ')
+        nameInput = nameInput.trim()
 
         // Check for Exit
         if (isExiting(nameInput)) {
@@ -36,7 +43,8 @@ export async function addUser(): Promise<void> {
     const rolesString = Object.values(UserRole).join('/') // Dynamically Fetch Roles from UserRole enum
 
     while (true) {
-        const roleInput: string = await askQuestion(`Enter role (${rolesString}): `)
+        let roleInput: string = await askQuestion(`Enter role (${rolesString}): `)
+        roleInput = cleanInput(roleInput)
 
         // Check for Exit
         if (isExiting(roleInput)) {

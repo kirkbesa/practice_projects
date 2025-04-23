@@ -2,6 +2,12 @@ export function updateAttribute<T, K extends keyof T>(object: T, attribute: K, v
     object[attribute] = value
 }
 
+// Generators
+export function generateID(list: any[]): number {
+    return list.length > 0 ? list[list.length - 1].id + 1 : 1
+}
+
+// Input Validators
 import { UserRole } from '../types'
 export function isValidRole(input: string): boolean {
     if (!Object.values(UserRole).includes(input as UserRole)) {
@@ -13,11 +19,6 @@ export function isValidRole(input: string): boolean {
 
 import { users } from '../database/users'
 export function isValidName(input: string): boolean {
-    // Check for Starting with Space
-    if (input[0] === ' ') {
-        console.log('Name cannot start with a space.')
-        return false
-    }
     // Check for Starting with Number
     if (!isNaN(Number(input[0]))) {
         console.log('Name cannot start with a number.')
@@ -32,8 +33,27 @@ export function isValidName(input: string): boolean {
     return true
 }
 
+export function isValidId(input: string, list: any[]) {
+    const indexFound = list.findIndex(element => element.id === Number(input))
+
+    if (indexFound === -1) {
+        console.log('Invalid ID. ID not found.')
+        return false
+    }
+    return true
+}
+
+export function isYesOrNo(input: string) {
+    const allowedInputs: string[] = ['y', 'yes', 'n', 'no']
+
+    if (!allowedInputs.includes(input.toLowerCase())) {
+        console.log('Invalid Input. Choose y or n only.')
+        return false
+    }
+    return true
+}
+
 export function isEmpty(input: string): boolean {
-    // Check for Empty
     if (!input || input.trim() === '') {
         console.log('Input cannot be empty.')
         return true
@@ -47,4 +67,16 @@ export function isExiting(input: string): boolean {
         return true
     }
     return false
+}
+
+export function isNumber(input: string): boolean {
+    if (isNaN(Number(input))) {
+        console.log('Please enter a number')
+        return false
+    }
+    return true
+}
+
+export function cleanInput(input: string): string {
+    return input.trim().toLowerCase()
 }

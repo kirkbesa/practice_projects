@@ -1,6 +1,7 @@
 import { askQuestion } from '../../utils/readline'
 import { users } from '../../database/users'
 import { listUsers } from './listUsers'
+import { isExiting, isEmpty, isNumber, isValidId, isYesOrNo, cleanInput } from '../../utils/helpers'
 
 export async function deleteUser(): Promise<void> {
     if (users.length === 0) {
@@ -17,56 +18,55 @@ export async function deleteUser(): Promise<void> {
         const userIdInput: string = await askQuestion('Enter user ID to delete: ')
 
         // Check for Exit
-        if (userIdInput === 'exit') {
-            console.log('Exiting user deletion...')
+        if (isExiting(userIdInput)) {
             return
         }
         // Check for Empty
-        if (!userIdInput) {
-            console.log('User ID cannot be empty.')
+        if (isEmpty(userIdInput)) {
             continue
         }
         // Check for Number
-        const userIdInputNumber: number = Number(userIdInput)
-        if (isNaN(userIdInputNumber)) {
-            console.log('Invalid user ID. Please enter a number.')
+        if (!isNumber(userIdInput)) {
             continue
         }
         // Check for Existing Valid User ID
-        userToDelete = users.findIndex(user => user.id === userIdInputNumber)
-        if (userToDelete === -1) {
-            console.log('Invalid user ID. User not found.')
+        if (!isValidId(userIdInput, users)) {
             continue
         }
+        userToDelete = Number(userIdInput) - 1
+        console.log(userToDelete)
+        console.log(users[userToDelete])
         break
     }
 
     // Confirm Deletion
     while (true) {
-        const confirmDeleteInput: string = await askQuestion(
+        let confirmDeleteInput: string = await askQuestion(
             `Are you sure you want to delete ${users[userToDelete].name} - ${users[userToDelete].role}? (y/n): `
         )
+        confirmDeleteInput = cleanInput(confirmDeleteInput)
 
         // Check for Exit
-        if (confirmDeleteInput === 'exit') {
-            console.log('Exiting user deletion...')
+        if (isExiting(confirmDeleteInput)) {
             return
         }
         // Check for Empty
-        if (!confirmDeleteInput) {
-            console.log('Confirmation cannot be empty.')
+        if (isEmpty(confirmDeleteInput)) {
             continue
         }
         // Check for y/n
-        if (confirmDeleteInput.toLowerCase() === 'y') {
-            users.splice(userToDelete, 1) // Delete User
-            console.log('User deleted successfully.')
-            return
-        } else if (confirmDeleteInput.toLowerCase() === 'n') {
-            console.log('User deletion cancelled.')
-            deleteUser() // Restart the process
+        if (!isYesOrNo(confirmDeleteInput)) {
+            continue
         } else {
-            console.log('Invalid input. Please enter "y" or "n".')
+            if (confirmDeleteInput === 'y' || confirmDeleteInput === 'yes') {
+                users.splice(userToDelete, 1) // Delete User
+                console.log('User deleted successfully.')
+                return
+            }
+            if (confirmDeleteInput === 'n' || confirmDeleteInput === 'no') {
+                console.log('User deletion cancelled. Returning to main menu...')
+                return
+            }
         }
     }
 }

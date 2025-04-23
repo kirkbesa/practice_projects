@@ -13,6 +13,7 @@ exports.deleteUser = deleteUser;
 const readline_1 = require("../../utils/readline");
 const users_1 = require("../../database/users");
 const listUsers_1 = require("./listUsers");
+const helpers_1 = require("../../utils/helpers");
 function deleteUser() {
     return __awaiter(this, void 0, void 0, function* () {
         if (users_1.users.length === 0) {
@@ -27,54 +28,52 @@ function deleteUser() {
             (0, listUsers_1.listUsers)();
             const userIdInput = yield (0, readline_1.askQuestion)('Enter user ID to delete: ');
             // Check for Exit
-            if (userIdInput === 'exit') {
-                console.log('Exiting user deletion...');
+            if ((0, helpers_1.isExiting)(userIdInput)) {
                 return;
             }
             // Check for Empty
-            if (!userIdInput) {
-                console.log('User ID cannot be empty.');
+            if ((0, helpers_1.isEmpty)(userIdInput)) {
                 continue;
             }
             // Check for Number
-            const userIdInputNumber = Number(userIdInput);
-            if (isNaN(userIdInputNumber)) {
-                console.log('Invalid user ID. Please enter a number.');
+            if (!(0, helpers_1.isNumber)(userIdInput)) {
                 continue;
             }
             // Check for Existing Valid User ID
-            userToDelete = users_1.users.findIndex(user => user.id === userIdInputNumber);
-            if (userToDelete === -1) {
-                console.log('Invalid user ID. User not found.');
+            if (!(0, helpers_1.isValidId)(userIdInput, users_1.users)) {
                 continue;
             }
+            userToDelete = Number(userIdInput) - 1;
+            console.log(userToDelete);
+            console.log(users_1.users[userToDelete]);
             break;
         }
         // Confirm Deletion
         while (true) {
-            const confirmDeleteInput = yield (0, readline_1.askQuestion)(`Are you sure you want to delete ${users_1.users[userToDelete].name} - ${users_1.users[userToDelete].role}? (y/n): `);
+            let confirmDeleteInput = yield (0, readline_1.askQuestion)(`Are you sure you want to delete ${users_1.users[userToDelete].name} - ${users_1.users[userToDelete].role}? (y/n): `);
+            confirmDeleteInput = (0, helpers_1.cleanInput)(confirmDeleteInput);
             // Check for Exit
-            if (confirmDeleteInput === 'exit') {
-                console.log('Exiting user deletion...');
+            if ((0, helpers_1.isExiting)(confirmDeleteInput)) {
                 return;
             }
             // Check for Empty
-            if (!confirmDeleteInput) {
-                console.log('Confirmation cannot be empty.');
+            if ((0, helpers_1.isEmpty)(confirmDeleteInput)) {
                 continue;
             }
             // Check for y/n
-            if (confirmDeleteInput.toLowerCase() === 'y') {
-                users_1.users.splice(userToDelete, 1); // Delete User
-                console.log('User deleted successfully.');
-                return;
-            }
-            else if (confirmDeleteInput.toLowerCase() === 'n') {
-                console.log('User deletion cancelled.');
-                deleteUser(); // Restart the process
+            if (!(0, helpers_1.isYesOrNo)(confirmDeleteInput)) {
+                continue;
             }
             else {
-                console.log('Invalid input. Please enter "y" or "n".');
+                if (confirmDeleteInput === 'y' || confirmDeleteInput === 'yes') {
+                    users_1.users.splice(userToDelete, 1); // Delete User
+                    console.log('User deleted successfully.');
+                    return;
+                }
+                if (confirmDeleteInput === 'n' || confirmDeleteInput === 'no') {
+                    console.log('User deletion cancelled. Returning to main menu...');
+                    return;
+                }
             }
         }
     });

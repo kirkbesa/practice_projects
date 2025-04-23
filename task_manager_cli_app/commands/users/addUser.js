@@ -18,13 +18,13 @@ function addUser() {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('Type "exit" at any time to cancel user creation.');
         // User ID generation logic
-        // If user list is not empty, add 1 to last id, else set to 1
-        const userId = users_1.users.length > 0 ? users_1.users[users_1.users.length - 1].id + 1 : 1;
+        const userId = (0, helpers_1.generateID)(users_1.users);
         let newUser = { id: userId, name: '', role: '' };
         // User Input Loop
         // Ask for Name
         while (true) {
-            const nameInput = yield (0, readline_1.askQuestion)('Enter name: ');
+            let nameInput = yield (0, readline_1.askQuestion)('Enter name: ');
+            nameInput = nameInput.trim();
             // Check for Exit
             if ((0, helpers_1.isExiting)(nameInput)) {
                 return;
@@ -42,7 +42,8 @@ function addUser() {
         // Ask for Role
         const rolesString = Object.values(types_1.UserRole).join('/'); // Dynamically Fetch Roles from UserRole enum
         while (true) {
-            const roleInput = yield (0, readline_1.askQuestion)(`Enter role (${rolesString}): `);
+            let roleInput = yield (0, readline_1.askQuestion)(`Enter role (${rolesString}): `);
+            roleInput = (0, helpers_1.cleanInput)(roleInput);
             // Check for Exit
             if ((0, helpers_1.isExiting)(roleInput)) {
                 return;

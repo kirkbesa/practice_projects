@@ -1,5 +1,15 @@
 import { askQuestion } from '../../utils/readline'
-import { isValidRole, updateAttribute } from '../../utils/helpers'
+import {
+    isExiting,
+    isEmpty,
+    isNumber,
+    isValidId,
+    isValidRole,
+    updateAttribute,
+    isValidName,
+    isYesOrNo,
+    cleanInput,
+} from '../../utils/helpers'
 import { listUsers } from './listUsers'
 import { users } from '../../database/users'
 import { User, UserRole } from '../../types'
@@ -18,27 +28,13 @@ export async function updateUser(): Promise<void> {
         const userIdInput: string = await askQuestion('Select User ID to update: ')
 
         // Check for exit
-        if (userIdInput === 'exit') {
-            console.log('Exiting user update...')
-            return
-        }
-        // Check for Empty
-        if (!userIdInput) {
-            console.log('ID cannot be empty')
+        if (isExiting(userIdInput)) return
+        // Check if empty, if number, if existing id
+        if (isEmpty(userIdInput) || !isNumber(userIdInput) || !isValidId(userIdInput, users))
             continue
-        }
-        // Check for Number
-        const userIdInputNumber: number = Number(userIdInput)
-        if (isNaN(userIdInputNumber)) {
-            console.log('Invalid user ID. Please enter a number.')
-            continue
-        }
-        // Check for Existing Valid User ID
-        userToUpdateIndex = users.findIndex(user => user.id === userIdInputNumber)
-        if (userToUpdateIndex === -1) {
-            console.log('Invalid user ID. User not found.')
-            continue
-        }
+
+        userToUpdateIndex = Number(userIdInput) - 1
+        console.log(`Updating: ${users[userToUpdateIndex].name} - ${users[userToUpdateIndex].role}`)
         break
     }
 
@@ -48,49 +44,85 @@ export async function updateUser(): Promise<void> {
         const updatableAttributes: string[] = Object.keys(userToUpdateObject).filter(
             key => key !== 'id'
         )
-        const attributeInput: string = await askQuestion(
-            `Select attribute to update: ${updatableAttributes.join('/')}/all `
+        let attributeInput: string = await askQuestion(
+            `Select attribute to update (${updatableAttributes.join('/')}/all): `
         )
+        attributeInput = cleanInput(attributeInput)
 
-        // Check for exit
-        if (attributeInput === 'exit') {
-            console.log('Exiting user update...')
-            return
-        }
-        // Check for all
+        // Check for Exit
+        if (isExiting(attributeInput)) return
+        // Check for Empty
+        if (isEmpty(attributeInput)) continue
+
+        // Check for All
         if (attributeInput === 'all') {
             for (const attribute of updatableAttributes) {
                 while (true) {
                     let newInput: string = await askQuestion(`Type new value for ${attribute}: `)
+                    newInput = cleanInput(newInput)
 
+                    // Check for exit
+                    if (isExiting(newInput)) return
                     // Check for Empty
-                    if (!newInput) {
-                        console.log(`${attribute} cannot be empty.`)
-                        continue
-                    }
+                    if (isEmpty(newInput)) continue
 
-                    newInput = newInput.trim().toLowerCase()
+                    if (attribute === 'name') {
+                        if (!isValidName(newInput)) continue
+                    }
 
                     // Check for valid role
                     if (attribute === 'role') {
-                        const rolesString = Object.values(UserRole).join('/')
-                        if (!isValidRole(newInput)) {
-                            console.log(`Invalid Role. Please choose from: ${rolesString}`)
-                            continue
-                        }
+                        if (!isValidRole(newInput)) continue
                     }
 
                     updateAttribute(userToUpdateObject, attribute as keyof User, newInput)
                     break
                 }
             }
-            console.log('All attributes updated successfully.')
+            console.log(
+                `${userToUpdateObject.name} - ${userToUpdateObject.role} updated successfully.`
+            )
             return
         }
+
         // Check for invalid attribute
-        if (!updatableAttributes.includes(attributeInput.trim())) {
+        if (!updatableAttributes.includes(attributeInput)) {
             console.log('Invalid attribute.')
             continue
+        }
+
+        // Check for single attribute selection
+        while (true) {
+            let question: string
+            if (attributeInput === 'role') {
+                question = `Type new value for ${attributeInput} (${Object.values(UserRole).join(
+                    '/'
+                )}): `
+            } else {
+                question = `Type new value for ${attributeInput}: `
+            }
+            let newInput: string = await askQuestion(question)
+            newInput = cleanInput(newInput)
+
+            // Check for exit
+            if (isExiting(newInput)) return
+            // Check for Empty
+            if (isEmpty(newInput)) continue
+
+            if (attributeInput === 'name') {
+                if (!isValidName(newInput)) continue
+            }
+
+            // Check for valid role
+            if (attributeInput === 'role') {
+                if (!isValidRole(newInput)) continue
+            }
+
+            updateAttribute(userToUpdateObject, attributeInput as keyof User, newInput)
+            console.log(
+                `${userToUpdateObject.name} - ${userToUpdateObject.role} updated successfully.`
+            )
+            return
         }
     }
 }
