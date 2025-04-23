@@ -7,7 +7,6 @@ import {
     isValidRole,
     updateAttribute,
     isValidName,
-    isYesOrNo,
     cleanInput,
 } from '../../utils/helpers'
 import { listUsers } from './listUsers'
