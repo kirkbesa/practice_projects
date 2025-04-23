@@ -81,3 +81,61 @@ Task updated!
 - Total Users: 5
 - Tasks Pending: 3
 - Tasks In Progress: 2
+
+🚀 Helper Functions You Can Create
+1️⃣ Input Validators
+Validate if a string is a valid number.
+
+Validate if input matches allowed values (e.g., roles, statuses).
+
+Check for empty or improperly formatted inputs.
+
+Case-insensitive comparison helper.
+
+2️⃣ Confirmation Prompts
+A reusable yes/no confirmation function.
+
+Automatically handle variations like "y", "yes", "n", "no".
+
+3️⃣ Display Helpers
+Format and display object details (like user info or task info).
+
+List items in a clean, consistent format.
+
+Highlight important info (maybe with simple CLI styling like uppercase or separators).
+
+4️⃣ ID Generation
+Generate the next available ID based on an array of objects.
+
+Prevent duplicate IDs in case of deletion gaps.
+
+5️⃣ Search Utilities
+Find an object by ID with proper error handling.
+
+Search by attribute (e.g., find user by name).
+
+6️⃣ General Array Helpers
+Remove an item from an array by ID.
+
+Update an item in an array immutably (return a new array).
+
+Sort items alphabetically or by ID.
+
+7️⃣ String Utilities
+Capitalize first letter.
+
+Normalize input (trim, lowercase).
+
+Sanitize inputs if needed.
+
+8️⃣ CLI Flow Control
+A reusable "Type 'exit' to cancel" checker.
+
+Loop handler for repeated prompts.
+
+Centralized error or success message formatter.
+
+9️⃣ Data Persistence (Bonus for Practice)
+Save data to a JSON file (simulate a database).
+
+Load data from a JSON file on startup.
