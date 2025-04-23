@@ -10,6 +10,7 @@ function askQuestion(question: string): Promise<string> {
 }
 
 interface User {
+    id: number
     name: string
     role: string
 }
@@ -22,10 +23,17 @@ enum UserRole {
 
 let users: User[] = []
 
-async function addUser() {
+async function addUser(): Promise<void> {
     type Step = 'askName' | 'askRole' | 'done'
     let step: Step = 'askName'
-    let newUser: User = { name: '', role: '' }
+    let newUser: User
+    try {
+        const userId = users[users.length - 1].id + 1
+        newUser = { id: userId, name: '', role: '' }
+    } catch (error) {
+        const userId = 1
+        newUser = { id: userId, name: '', role: '' }
+    }
 
     while (step !== 'done') {
         switch (step) {
@@ -70,19 +78,36 @@ async function addUser() {
         }
     }
 
-    users.push(newUser)
+    users.push(newUser) // Add the new user to the users array
     console.log('User added successfully!')
 }
 
-async function listUsers() {
+async function listUsers(): Promise<void> {
     if (users.length === 0) {
         console.log('No users found.')
     } else {
         console.log('List of users:')
         users.forEach(user => {
-            console.log(`Name: ${user.name}, Role: ${user.role}`)
+            console.log(`Id: ${user.id}, Name: ${user.name}, Role: ${user.role}`)
         })
     }
+}
+
+interface Command {
+    [key: string]: () => Promise<void>
+}
+
+const commands: Command = {
+    'add user': addUser,
+    'list users': listUsers,
+}
+
+function printHelp(): void {
+    console.log('Available commands:')
+    Object.keys(commands).forEach(command => {
+        console.log(`- ${command}`)
+    })
+    console.log('- exit')
 }
 
 async function startApp() {
@@ -91,26 +116,26 @@ async function startApp() {
     let running = true
 
     while (running) {
-        const input = await askQuestion('Type a command: ')
-        switch (input.toLowerCase()) {
-            case 'list users':
-                console.clear()
-                await listUsers()
-                break
-            case 'add user':
-                console.clear()
-                await addUser()
-                break
+        console.log('Type "help" for a list of commands.')
+        const input: string = await askQuestion('Type a command: ')
+        const commandInput: string = input.toLowerCase()
+        const action = commands[commandInput]
+
+        switch (commandInput) {
             case 'help':
-                console.clear()
-                console.log('List of commands:')
+                printHelp()
                 break
             case 'exit':
                 running = false
                 console.log('Goodbye!')
                 break
             default:
-                console.log('Unknown command.')
+                if (action) {
+                    await action()
+                } else {
+                    console.log('Invalid command. Type "help" for a list of commands.')
+                }
+                break
         }
     }
 
