@@ -59,7 +59,11 @@ function updateUser() {
                 console.log('Exiting user update...');
                 return;
             }
-            // Check for both
+            // Check for invalid attribute
+            if (!updatableAttributes.includes(attributeInput.trim())) {
+                console.log('Invalid attribute.');
+                continue;
+            }
         }
     });
 }

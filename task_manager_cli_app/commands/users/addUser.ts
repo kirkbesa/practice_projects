@@ -4,18 +4,11 @@ import { User, UserRole } from '../../types'
 
 export async function addUser(): Promise<void> {
     console.log('Type "exit" at any time to cancel user creation.')
-    let newUser: User
 
     // User ID generation logic
-    try {
-        // Increment the last user ID by 1
-        const userId = users[users.length - 1].id + 1
-        newUser = { id: userId, name: '', role: '' }
-    } catch (error) {
-        // Empty Case
-        const userId = 1
-        newUser = { id: userId, name: '', role: '' }
-    }
+    // If user list is not empty, add 1 to last id, else set to 1
+    const userId = users.length > 0 ? users[users.length - 1].id + 1 : 1
+    let newUser: User = { id: userId, name: '', role: '' }
 
     // User Input Loop
     // Ask for Name
@@ -54,7 +47,6 @@ export async function addUser(): Promise<void> {
 
     // Ask for Role
     const rolesString = Object.values(UserRole).join('/') // Dynamically Fetch Roles from UserRole enum
-
     while (true) {
         const roleInput: string = await askQuestion(`Enter role (${rolesString}): `)
 

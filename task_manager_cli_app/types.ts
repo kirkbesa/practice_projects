@@ -7,8 +7,10 @@ interface Command {
 interface User {
     id: number
     name: string
-    role: string
+    role: Role
 }
+
+type Role = 'admin' | 'user' | 'manager' | string
 
 enum UserRole {
     ADMIN = 'admin',
@@ -16,4 +18,4 @@ enum UserRole {
     MANAGER = 'manager',
 }
 
-export { Command, User, UserRole }
+export { Command, User, UserRole, Role }

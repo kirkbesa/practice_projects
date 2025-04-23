@@ -15,6 +15,10 @@ const users_1 = require("../../database/users");
 const listUsers_1 = require("./listUsers");
 function deleteUser() {
     return __awaiter(this, void 0, void 0, function* () {
+        if (users_1.users.length === 0) {
+            (0, listUsers_1.listUsers)();
+            return;
+        }
         console.log('Type "exit" at any time to cancel user deletion.');
         let userToDelete = -1;
         // User Input Loop

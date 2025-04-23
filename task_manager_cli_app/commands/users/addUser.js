@@ -18,16 +18,9 @@ function addUser() {
         console.log('Type "exit" at any time to cancel user creation.');
         let newUser;
         // User ID generation logic
-        try {
-            // Increment the last user ID by 1
-            const userId = users_1.users[users_1.users.length - 1].id + 1;
-            newUser = { id: userId, name: '', role: '' };
-        }
-        catch (error) {
-            // Empty Case
-            const userId = 1;
-            newUser = { id: userId, name: '', role: '' };
-        }
+        // If user list is not empty, add 1 to last id, else set to 1
+        const userId = users_1.users.length > 0 ? users_1.users[users_1.users.length - 1].id + 1 : 1;
+        newUser = { id: userId, name: '', role: 'user' };
         // User Input Loop
         // Ask for Name
         while (true) {
