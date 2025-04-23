@@ -4,13 +4,12 @@ interface Command {
 }
 
 // Users
+type Role = 'admin' | 'user' | 'manager' | string
 interface User {
     id: number
     name: string
     role: Role
 }
-
-type Role = 'admin' | 'user' | 'manager' | string
 
 enum UserRole {
     ADMIN = 'admin',
@@ -18,4 +17,14 @@ enum UserRole {
     MANAGER = 'manager',
 }
 
-export { Command, User, UserRole, Role }
+// Tasks
+type Status = 'unassigned' | 'assigned' | 'inProgress' | 'Done' | 'cancelled'
+
+interface Task {
+    taskId: number
+    title: string
+    assignedTo: number
+    status: Status
+}
+
+export { Command, User, UserRole, Role, Task, Status }
